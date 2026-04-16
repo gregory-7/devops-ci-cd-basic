@@ -1,0 +1,21 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]  # Se activa cada vez que subes algo a la rama main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Ejecutar Script de Automatización
+        run: bash ./scripts/healthcheck.sh
+
+      - name: Configurar Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build de la imagen Docker
+        run: docker build -t mi-app-web:latest .
